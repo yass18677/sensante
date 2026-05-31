@@ -73,10 +73,11 @@ import numpy as np
 
 # --- Charger le modele et les encodeurs au demarrage ---
 print("Chargement du modele...")
-model = joblib.load("../models/model.pkl")
-le_sexe = joblib.load("../models/encoder_sexe.pkl")
-le_region = joblib.load("../models/encoder_region.pkl")
-feature_cols = joblib.load("../models/feature_cols.pkl")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model = joblib.load(os.path.join(BASE_DIR, "models", "model.pkl"))
+le_sexe = joblib.load(os.path.join(BASE_DIR, "models", "encoder_sexe.pkl"))
+le_region = joblib.load(os.path.join(BASE_DIR, "models", "encoder_region.pkl"))
+feature_cols = joblib.load(os.path.join(BASE_DIR, "models", "feature_cols.pkl"))
 print(f"Modele charge : {type(model).__name__}")
 print(f"Classes : {list(model.classes_)}")
 
