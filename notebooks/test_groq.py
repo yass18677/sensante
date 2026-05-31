@@ -51,3 +51,38 @@ Explique ce resultat au patient."""}
 
 print("=== Explication SenSante ===")
 print(response2.choices[0].message.content)
+
+#Prompt en wolof
+response3 = client.chat.completions.create(
+    model="llama-3.1-8b-instant",
+    messages=[
+        {"role": "system", "content": """Tu es un assistant medical senegalais.
+Reponds en melange de francais et de wolof simple.
+Utilise des mots wolof courants comme : dafa (il/elle a), bopam (sa tete),
+tangaay (fievre), yaram (corps), dem (aller).
+Maximum 3 phrases.
+Ne fais JAMAIS de diagnostic toi-meme."""},
+        {"role": "user", "content": """Patient : Femme, 28 ans, region Dakar
+Diagnostic du modele : grippe (probabilite 70%)
+Explique ce resultat au patient."""}
+    ],
+    max_tokens=200,
+    temperature=0.3
+)
+
+print("=== Explication en Wolof/Francais ===")
+print(response3.choices[0].message.content)
+
+#Impact de la temperature
+for temp in [0.0, 0.5, 1.0]:
+    r = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {"role": "system", "content": "Tu es un assistant medical senegalais. Maximum 2 phrases."},
+            {"role": "user", "content": "Patient : Homme, 35 ans. Diagnostic : grippe (60%). Explique."}
+        ],
+        max_tokens=100,
+        temperature=temp
+    )
+    print(f"\n=== Temperature {temp} ===")
+    print(r.choices[0].message.content)
